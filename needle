@@ -199,6 +199,9 @@ function build_website () {
 	mv site ../_site
 	cd ..
 
+	tar --dereference --hard-dereference --directory _site \
+		-cvf artifact.tar --exclude=".[^/]*" .
+
 }
 
 function linux_full () {
@@ -545,10 +548,10 @@ function cmake_build () {
 
 function collate_artifacts () {
 
-mkdir artifacts
-cd artifacts
+	mkdir artifacts
+	cd artifacts
 
-python3 - <<'___HERE'
+	python3 - <<'___HERE'
 import json
 import os
 
@@ -571,7 +574,7 @@ rm artifact.zip
 """ % (i))
 ___HERE
 
-cd ..
+	cd ..
 
 }
 
