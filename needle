@@ -74,7 +74,7 @@ EOF
 function update_needle () {
 
 	rm -f $BINDIR/needle
-        wget https://raw.githubusercontent.com/Embroidermodder/website/refs/heads/main/needle -O $BINDIR/needle
+        wget https://raw.githubusercontent.com/Embroidermodder/needle/refs/heads/main/needle -O $BINDIR/needle
 	chmod +x $BINDIR/needle
 
 	echo "Installed new version of needle:"
@@ -176,6 +176,8 @@ function update () {
 
 function build_website () {
 
+	git clone https://github.com/embroidermodder/website
+	cd website
 	git clone https://github.com/embroidermodder/embroidermodder
 
 	python3 -m pip install --upgrade pip
@@ -194,7 +196,8 @@ function build_website () {
 
 	./bin/mkdocs build
 
-	mv site _site
+	mv site ../_site
+	cd ..
 
 }
 
