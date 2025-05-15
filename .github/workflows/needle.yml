@@ -22,8 +22,8 @@ jobs:
     steps:
     - name: Get Needle
       run: |
-        git clone https://github.com/embroidermodder/needle
-        mv needle/needle .
+        git clone https://github.com/embroidermodder/needle needle-src
+        mv needle-src/needle .
         chmod +x needle
     - name: Sew
       run: |
