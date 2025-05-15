@@ -22,7 +22,8 @@ jobs:
     steps:
     - name: Get Needle
       run: |
-        wget https://raw.githubusercontent.com/Embroidermodder/website/refs/heads/main/needle -O needle
+        git clone https://github.com/embroidermodder/needle
+        mv needle/needle .
         chmod +x needle
     - name: Sew
       run: |
