@@ -540,6 +540,9 @@ function cmake_build () {
 
 }
 
+# regardless of program success, we need a result for github actions to upload as an artifact
+touch result.dat
+
 if [[ "$#" -eq 0 ]]; then
 	help_msg
 	exit
