@@ -3,6 +3,9 @@ name: needle
 on:
   workflow_call:
     inputs:
+      name:
+        required: true
+        type: string
       os:
         required: true
         type: string
@@ -10,21 +13,24 @@ on:
         required: true
         type: string
     secrets:
-      personal_access_token:
-        required: true
+      repo_token:
+        required: false
 
 jobs:
   getneedle:
     runs-on: ${{ inputs.os }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.head_ref }}
     - name: Get Needle
       run: |
-        wget https://raw.githubusercontent.com/Embroidermodder/website/refs/heads/main/needle -O needle
+        git clone https://github.com/embroidermodder/needle needle-src
+        mv needle-src/needle .
         chmod +x needle
     - name: Sew
       run: |
         ./needle ${{ inputs.flags }}
+    - name: Upload Result
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.name }}
+        path: ./result.dat
+
