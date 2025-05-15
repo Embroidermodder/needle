@@ -95,6 +95,8 @@ function badge () {
 		COLOR="purple"
 	fi
 
+	echo "$1,$2,$COLOR" >> results.dat
+
 	wget https://img.shields.io/badge/$1-$2-$COLOR -O docs/images/$3.svg
 
 }
@@ -567,7 +569,7 @@ ___HERE
 }
 
 # regardless of program success, we need a result for github actions to upload as an artifact
-touch result.dat
+touch results.dat
 
 if [[ "$#" -eq 0 ]]; then
 	help_msg
