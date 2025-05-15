@@ -540,6 +540,33 @@ function cmake_build () {
 
 }
 
+function collate_artifacts () {
+
+python3 - <<'___HERE'
+import json
+import os
+
+os.system("gh api /repos/embroidermodder/website/actions/artifacts > data.json")
+
+f = open("data.json", "r")
+d = json.loads(f.read())
+f.close()
+
+for i in range(d["total_count"]):
+    if d["artifacts"][i]["expired"]:
+        print("Artifact %d has expired, skipping." % i)
+        continue
+    get = "gh api /repos/embroidermodder/website/actions/artifacts/%d/zip > artifact.zip"
+    os.system(get % d["artifacts"][i]["id"])
+    os.system("""
+unzip artifact.zip
+mv result.dat result%d.dat
+rm artifact.zip
+""" % (i))
+___HERE
+
+}
+
 if [[ "$#" -eq 0 ]]; then
 	help_msg
 	exit
@@ -606,8 +633,9 @@ do
 #		cmake_build;;
 #	--clean)
 #		rm -fr $BUILD_DIR $TEST_DIR;;
+	--collate)
+		collate_results;;
 	*)
 		help_msg;;
 	esac
 done
-
