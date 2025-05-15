@@ -162,18 +162,6 @@ function clean () {
 
 }
 
-function update () {
-
-	git config --global user.email github-actions@github.com
-	git config --global user.name github-actions
-	git add -A status/*
-	git commit -a -m "AUTOMATED: updating status"
-	git fetch
-	git merge
-	git push
-
-}
-
 function build_website () {
 
 	git clone https://github.com/embroidermodder/website
@@ -597,8 +585,6 @@ do
 #		macos_full;;
 #	--windows-latest)
 #		windows_full;;
-#	--update)
-#		update;;
 #	--sharpen)
 #		update_needle;;
 #	--clean)
@@ -645,8 +631,6 @@ do
 #		test_build;;
 #	--cmake-build)
 #		cmake_build;;
-#	--clean)
-#		rm -fr $BUILD_DIR $TEST_DIR;;
 	--collate)
 		collate_results;;
 	*)
